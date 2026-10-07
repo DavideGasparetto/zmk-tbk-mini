@@ -1,9 +1,23 @@
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <layouts/foostan/corne/6column.dtsi>
+
+// Physical layout (key positions) for ZMK Studio. Same 42 keys as the
+// standard Corne 6-column, so ZMK's stock Corne layout is reused.
+&foostan_corne_6col_layout {
+    transform = <&default_transform>;
+};
+
+// P0.09/P0.10 are the nRF52840 NFC pins. Both halves use them in the matrix
+// (left: cols, right: rows), so switch them to plain GPIO. Written once to
+// UICR on first boot of each board.
+&uicr {
+    nfct-pins-as-gpios;
+};
 
 / {
     chosen {
         zmk,kscan = &kscan0;
-        zmk,matrix_transform = &default_transform;
+        zmk,physical-layout = &foostan_corne_6col_layout;
     };
 
     // Standard 42-key Corne split transform: 4 rows x 12 columns (6 per side).
